@@ -1,9 +1,14 @@
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
-:- use_module(library(http/http_unix_daemon)).
+:- use_module(library(http/http_parameters)).
 
-:- http_handler(/, handle_request, []).
+:- http_handler(root(hallo), say_hi, []).		% (1)
 
-handle_request(_Request) :-
-    format("Content-type: text/plain~n~n"),
-    format("Hello!").
+server(Port) :-						% (2)
+        http_server(http_dispatch, [port(Port)]).
+
+say_hi(Request) :-					% (3)
+        http_parameters(Request,
+        [ name(Name, [])]),
+        format('Content-type: text/plain~n~n'),
+        format(Name).

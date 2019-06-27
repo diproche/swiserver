@@ -13,9 +13,8 @@ server(Port) :-
         http_server(http_dispatch, [port(Port)]).
 
 reply(Request) :-
-        member(method(post), Request), !,
         http_read_data(Request, ProposedProof, []),
-        diproche_fo(ProposedProof, DiprocheReturn),
-        format('Content-type: text/plain~n~n', []),
-        format(DiprocheReturn).
+        member(method(post), Request), !,
+        bagof(DiprocheReturn, diproche_fo(ProposedProof, DiprocheReturn), Returns),
+		write('List of Lists with unverified Input: '), write(Returns).
 

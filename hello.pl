@@ -18,3 +18,4 @@ reply(Request) :-
         bagof(DiprocheReturn, diproche_fo(ProposedProof, DiprocheReturn), Returns),
 		write('List of Lists with unverified Input: '), write(Returns).
 
+?-server(5000).
